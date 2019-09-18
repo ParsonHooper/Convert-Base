@@ -1,0 +1,55 @@
+#!/usr/local/bin/python3
+
+################################################################################
+# Author: Devin P Shanahan                                                     #
+# Version: 0.0.1                                                               #
+#                                                                              #
+# usage: convertBase [-h] inputBase outputBase inputNumber                     #
+#                                                                              #
+# A simple and effective base converter.                                       #
+#                                                                              #
+# positional arguments:                                                        #
+#   inputBase    Input base                                                    #
+#   outputBase   Output base                                                   #
+#   inputNumber  Input number                                                  #
+#                                                                              #
+# optional arguments:                                                          #
+#   -h, --help   show this help message and exit                               #
+################################################################################
+
+# Imports
+import argparse
+
+# Setup argument parser
+parser = argparse.ArgumentParser(description='A simple and effective base converter.')
+parser.add_argument('inputBase', type=int, help='Input base')
+parser.add_argument('outputBase', type=int, help='Output base')
+parser.add_argument('inputNumber', type=int, help='Input number')
+args = parser.parse_args()
+
+# Read arguments
+inputBase = args.inputBase
+outputBase = args.outputBase
+inputNumber = args.inputNumber
+
+# Define function
+def convertFromDecimal(number, base):
+    assert(number >= 0)
+    assert(1 < base < 37)
+    result = ''
+    import string
+    while number > 0:
+        result = string.printable[number % base] + result
+        number //= base
+    return result
+
+# Define function
+def convertToDecimal(number, base):
+    assert(1 < base < 37)
+    return int(str(number), base)
+
+# Define function
+def convertBase(inputNumber, inputBase, outputBase):
+    return convertFromDecimal(convertToDecimal(inputNumber, inputBase), outputBase)
+
+print(convertBase(inputNumber, inputBase, outputBase))
